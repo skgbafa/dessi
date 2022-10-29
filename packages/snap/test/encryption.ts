@@ -11,7 +11,7 @@ const exampleMessage = 'My name is Satoshi Buterin';
 const exampleVersion = 'secp256k1-sha512kdf-aes256cbc-hmacsha256';
 
 // helper functions
-const encrypt = (message, publicKey) => {
+const encrypt = (message: string, publicKey: string) => {
   // todo: implement
   const encryptedMessage = `${publicKey}${message}`;
   return encryptedMessage;
