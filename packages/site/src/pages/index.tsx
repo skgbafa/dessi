@@ -1,5 +1,9 @@
 import { useContext, useState } from 'react';
 import styled from 'styled-components';
+// import { useProvider } from '@web3modal/react'
+
+import { SSX, SSXConfig } from '@spruceid/ssx';
+
 import { MetamaskActions, MetaMaskContext } from '../hooks';
 import {
   connectSnap,
@@ -104,6 +108,14 @@ const ErrorMessage = styled.div`
 `;
 
 const Index = () => {
+  // const { provider, isReady } = useProvider();
+  const ssxConfig = {
+    providers: {
+      web3: { driver: window.ethereum },
+    }
+  };
+  const newSSX = new SSX(ssxConfig);
+  const [ssx, setSSX] = useState(newSSX);
   const [state, dispatch] = useContext(MetaMaskContext);
 
   const [encryptionPublicKey, setEncryptionPublicKey] = useState('');
@@ -115,6 +127,7 @@ const Index = () => {
     try {
       await connectSnap();
       const installedSnap = await getSnap();
+      await ssx.signIn();
 
       dispatch({
         type: MetamaskActions.SetInstalled,
@@ -270,6 +283,19 @@ const Index = () => {
             button: (
               <Button onClick={handleDecryptMessage} disabled={false}>
                 eth_encrypt
+              </Button>
+            ),
+          }}
+          disabled={false}
+          fullWidth={false}
+        />
+        <Card
+          content={{
+            title: 'SSX Sign-in',
+            description: 'Sign-in using SSX.',
+            button: (
+              <Button onClick={() => {ssx.signIn()}} disabled={false}>
+                SSX
               </Button>
             ),
           }}
