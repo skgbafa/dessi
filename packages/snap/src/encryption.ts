@@ -53,9 +53,10 @@ const eth_decrypt = (
   const { version, ciphertext } = encryptedMessage;
   switch (version) {
     case 'secp256k1-sha512kdf-aes256cbc-hmacsha256':
-      // eslint-disable-next-line no-case-declarations
       const encryptionKey = getEncryptionKeyFromAccount(account);
-      return decrypt(encryptionKey, Buffer.from(ciphertext, 'hex'));
+      return decrypt(encryptionKey, Buffer.from(ciphertext, 'hex')).toString(
+        'utf8',
+      );
       break;
     case 'x25519-xsalsa20-poly1305':
     default:

@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { encrypt } from 'eciesjs';
 import { eth_getEncryptionPublicKey, eth_decrypt } from '../src/encryption';
 
 // example values from [EIP-5630](https://eips.ethereum.org/EIPS/eip-5630)
@@ -11,10 +12,9 @@ const exampleMessage = 'My name is Satoshi Buterin';
 const exampleVersion = 'secp256k1-sha512kdf-aes256cbc-hmacsha256';
 
 // helper functions
-const encrypt = (message: string, publicKey: string) => {
-  // todo: implement
-  const encryptedMessage = `${publicKey}${message}`;
-  return encryptedMessage;
+const encryptMessage = (message: string, publicKey: string) => {
+  const encryptedMessage = encrypt(publicKey, Buffer.from(message));
+  return encryptedMessage.toString('hex');
 };
 
 describe('eth_getEncryptionPublicKey', () => {
@@ -26,7 +26,7 @@ describe('eth_getEncryptionPublicKey', () => {
 
 describe('eth_decrypt', () => {
   it('should decrypt the message', () => {
-    const encryptedMessage = encrypt(
+    const encryptedMessage = encryptMessage(
       exampleMessage,
       exampleEncryptionPublicKey,
     );
