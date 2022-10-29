@@ -23,6 +23,7 @@
     "lint:eslint": "eslint . --cache --ext js,ts",
     "lint:fix": "yarn lint:eslint --fix && yarn lint:misc --write",
     "lint:misc": "prettier '**/*.json' '**/*.md' '!CHANGELOG.md' --ignore-path .gitignore",
+    "test": "mocha test/encryption.ts",
     "serve": "mm-snap serve",
     "start": "mm-snap watch"
   },
@@ -35,8 +36,11 @@
     "@metamask/eslint-config-typescript": "^10.0.0",
     "@metamask/snap-types": "^0.22.0",
     "@metamask/snaps-cli": "^0.22.0",
+    "@types/chai": "^4.3.3",
+    "@types/mocha": "^10.0.0",
     "@typescript-eslint/eslint-plugin": "^5.33.0",
     "@typescript-eslint/parser": "^5.33.0",
+    "chai": "^4.3.6",
     "eslint": "^8.21.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.26.0",
@@ -44,6 +48,7 @@
     "eslint-plugin-jsdoc": "^39.2.9",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "mocha": "^10.1.0",
     "prettier": "^2.2.1",
     "prettier-plugin-packagejson": "^2.2.11",
     "rimraf": "^3.0.2",
@@ -56,5 +61,8 @@
   "publishConfig": {
     "access": "public",
     "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "@ethersproject/keccak256": "^5.7.0"
   }
 }
