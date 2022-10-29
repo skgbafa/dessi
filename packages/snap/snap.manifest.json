@@ -4,7 +4,7 @@
   "proposedName": "TypeScript Example Snap",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MetaMask/template-snap-monorepo.git"
+    "url": "https://github.com/skgbafa/dessi.git"
   },
   "source": {
     "shasum": "naL9tJT7QHAFER/TGfTcjwUFZUMhrsWY5f8XqX28M/g=",
@@ -12,7 +12,7 @@
       "npm": {
         "filePath": "dist/bundle.js",
         "iconPath": "images/icon.svg",
-        "packageName": "snap",
+        "packageName": "dessi",
         "registry": "https://registry.npmjs.org/"
       }
     }

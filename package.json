@@ -11,8 +11,8 @@
     "type": "git",
     "url": "git+https://github.com/skgbafa/dessi.git"
   },
-  "license": "(MIT-0 OR Apache-2.0)",
-  "author": "",
+  "license": "MIT",
+  "author": "Sam Gbafa",
   "workspaces": [
     "packages/*"
   ],

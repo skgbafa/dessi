@@ -3442,29 +3442,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/template-snap-monorepo@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@metamask/template-snap-monorepo@workspace:."
-  dependencies:
-    "@metamask/eslint-config": ^10.0.0
-    "@metamask/eslint-config-jest": ^10.0.0
-    "@metamask/eslint-config-nodejs": ^10.0.0
-    "@metamask/eslint-config-typescript": ^10.0.0
-    "@typescript-eslint/eslint-plugin": ^5.33.0
-    "@typescript-eslint/parser": ^5.33.0
-    eslint: ^8.21.0
-    eslint-config-prettier: ^8.1.0
-    eslint-plugin-import: ^2.26.0
-    eslint-plugin-jest: ^26.8.2
-    eslint-plugin-jsdoc: ^39.2.9
-    eslint-plugin-node: ^11.1.0
-    eslint-plugin-prettier: ^4.2.1
-    prettier: ^2.2.1
-    prettier-plugin-packagejson: ^2.2.18
-    typescript: ^4.7.4
-  languageName: unknown
-  linkType: soft
-
 "@metamask/types@npm:^1.1.0":
   version: 1.1.0
   resolution: "@metamask/types@npm:1.1.0"
@@ -7905,6 +7882,29 @@ __metadata:
   checksum: 1ec2eedd7ed6bd61dd5e0519fd4c96124e93bb22de8a9d211b02d63e5dd152824853d919bb2090f965cc0e3eb9c515950a9836b332020d810f9c71feb0fd7df4
   languageName: node
   linkType: hard
+
+"dessi@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "dessi@workspace:."
+  dependencies:
+    "@metamask/eslint-config": ^10.0.0
+    "@metamask/eslint-config-jest": ^10.0.0
+    "@metamask/eslint-config-nodejs": ^10.0.0
+    "@metamask/eslint-config-typescript": ^10.0.0
+    "@typescript-eslint/eslint-plugin": ^5.33.0
+    "@typescript-eslint/parser": ^5.33.0
+    eslint: ^8.21.0
+    eslint-config-prettier: ^8.1.0
+    eslint-plugin-import: ^2.26.0
+    eslint-plugin-jest: ^26.8.2
+    eslint-plugin-jsdoc: ^39.2.9
+    eslint-plugin-node: ^11.1.0
+    eslint-plugin-prettier: ^4.2.1
+    prettier: ^2.2.1
+    prettier-plugin-packagejson: ^2.2.18
+    typescript: ^4.7.4
+  languageName: unknown
+  linkType: soft
 
 "destroy@npm:1.2.0":
   version: 1.2.0

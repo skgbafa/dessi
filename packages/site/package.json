@@ -1,8 +1,8 @@
 {
-  "name": "site",
+  "name": "dessi-demo",
   "version": "0.1.0",
   "private": true,
-  "license": "(MIT-0 OR Apache-2.0)",
+  "license": "MIT",
   "scripts": {
     "build": "cross-env GATSBY_TELEMETRY_DISABLED=1 gatsby build",
     "clean": "rimraf build",
