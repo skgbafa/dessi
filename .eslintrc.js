@@ -5,6 +5,9 @@ module.exports = {
   },
 
   extends: ['@metamask/eslint-config'],
+  rules: {
+    camelcase: 0,
+  },
 
   overrides: [
     {

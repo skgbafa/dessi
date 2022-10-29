@@ -1,5 +1,5 @@
 import { OnRpcRequestHandler } from '@metamask/snap-types';
-
+import { eth_getEncryptionPublicKey, eth_decrypt } from './encryption';
 /**
  * Get a message from the origin. For demonstration purposes only.
  *
@@ -35,6 +35,12 @@ export const onRpcRequest: OnRpcRequestHandler = ({ origin, request }) => {
           },
         ],
       });
+    case 'eth_getEncryptionPublicKey':
+      return eth_getEncryptionPublicKey('');
+
+    case 'eth_decrypt':
+      return eth_decrypt('', '');
+
     default:
       throw new Error('Method not found.');
   }
