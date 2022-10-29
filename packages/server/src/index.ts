@@ -2,6 +2,7 @@ import express, { Express } from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { SSXServer, SSXExpressMiddleware } from '@spruceid/ssx-server';
+import { Web3Storage } from 'web3.storage'
 import { web3StorageEndpoints } from './web3storage';
 
 dotenv.config();
@@ -13,6 +14,8 @@ const ssx = new SSXServer({
   signingKey: process.env.SSX_SIGNING_KEY,
 });
 
+const web3Storage = new Web3Storage({ token: process.env.WEB3STORAGE_TOKEN || '' });
+
 app.use(cors({
   credentials: true,
   origin: true,
@@ -20,7 +23,7 @@ app.use(cors({
 
 app.use(SSXExpressMiddleware(ssx));
 
-app.use("/storage", web3StorageEndpoints({}))
+app.use("/storage", web3StorageEndpoints(web3Storage))
 
 app.use((req, res) => {
   if (!res.headersSent) {
