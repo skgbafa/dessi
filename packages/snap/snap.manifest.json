@@ -12,7 +12,7 @@
       "npm": {
         "filePath": "dist/bundle.js",
         "iconPath": "images/icon.svg",
-        "packageName": "dessi",
+        "packageName": "dessi-snap",
         "registry": "https://registry.npmjs.org/"
       }
     }

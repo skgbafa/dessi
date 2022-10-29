@@ -72,4 +72,43 @@ export const sendHello = async () => {
   });
 };
 
+/**
+ * Invoke the "eth_getEncryptionPublicKey" method from the snap.
+ *
+ * @param account - The account to get the public key for.
+ * @returns The public key.
+ */
+export const getEncryptionPublicKey = async (account: string) => {
+  return await window.ethereum.request({
+    method: 'wallet_invokeSnap',
+    params: [
+      defaultSnapOrigin,
+      {
+        method: 'eth_getEncryptionPublicKey',
+        params: [account],
+      },
+    ],
+  });
+};
+
+/**
+ * Invoke the "eth_decrypt" method from the snap.
+ *
+ * @param encryptedMessage - The encrypted message to decrypt.
+ * @param account - The account to decrypt the message with.
+ * @returns The decrypted message.
+ */
+export const decrypt = async (encryptedMessage: string, account: string) => {
+  return await window.ethereum.request({
+    method: 'wallet_invokeSnap',
+    params: [
+      defaultSnapOrigin,
+      {
+        method: 'eth_decrypt',
+        params: [encryptedMessage, account],
+      },
+    ],
+  });
+};
+
 export const isLocalSnap = (snapId: string) => snapId.startsWith('local:');

@@ -32,7 +32,7 @@ const Link = styled.a`
   }
 `;
 
-const Button = styled.button`
+export const Button = styled.button`
   display: flex;
   align-self: flex-start;
   align-items: center;

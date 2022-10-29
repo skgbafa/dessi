@@ -1,10 +1,12 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import { MetamaskActions, MetaMaskContext } from '../hooks';
 import {
   connectSnap,
   getSnap,
   sendHello,
+  getEncryptionPublicKey,
+  decrypt,
   shouldDisplayReconnectButton,
 } from '../utils';
 import {
@@ -12,6 +14,7 @@ import {
   InstallFlaskButton,
   ReconnectButton,
   SendHelloButton,
+  Button,
 } from './Buttons';
 import { Card } from './Card';
 
@@ -101,6 +104,10 @@ const ErrorMessage = styled.div`
 
 export const Home = () => {
   const [state, dispatch] = useContext(MetaMaskContext);
+  const [encryptionPublicKey, setEncryptionPublicKey] = useState('');
+  const [message, setMessage] = useState('');
+  const [encryptedMessage, setEncryptedMessage] = useState('');
+  const [decryptedMessage, setDecryptedMessage] = useState('');
 
   const handleConnectClick = async () => {
     try {
@@ -120,6 +127,36 @@ export const Home = () => {
   const handleSendHelloClick = async () => {
     try {
       await sendHello();
+    } catch (e) {
+      console.error(e);
+      dispatch({ type: MetamaskActions.SetError, payload: e });
+    }
+  };
+
+  const handleGetEncryptionPublicKey = async () => {
+    try {
+      const account = ''; // todo: get account from state
+      const publicKey: any = await getEncryptionPublicKey(account);
+      setEncryptionPublicKey(publicKey);
+    } catch (e) {
+      console.error(e);
+      dispatch({ type: MetamaskActions.SetError, payload: e });
+    }
+  };
+
+  const handleEncryptMessage = async () => {
+    try {
+      // todo: encrypt message
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleDecryptMessage = async () => {
+    try {
+      const account = ''; // todo: get account from state
+      const decrypted: any = await decrypt(encryptedMessage, account);
+      setDecryptedMessage(decrypted);
     } catch (e) {
       console.error(e);
       dispatch({ type: MetamaskActions.SetError, payload: e });
@@ -193,6 +230,45 @@ export const Home = () => {
                 onClick={handleSendHelloClick}
                 disabled={false}
               />
+            ),
+          }}
+          disabled={false}
+          fullWidth={false}
+        />
+        <Card
+          content={{
+            title: 'Get Encryption Public Key',
+            description: 'Get the public key used for encryption.',
+            button: (
+              <Button onClick={handleGetEncryptionPublicKey} disabled={false}>
+                eth_getEncryptionPublicKey
+              </Button>
+            ),
+          }}
+          disabled={false}
+          fullWidth={false}
+        />
+        <Card
+          content={{
+            title: 'Encrypt Message',
+            description: 'Encrypt a message using the public key.',
+            button: (
+              <Button onClick={handleEncryptMessage} disabled={false}>
+                eth_encrypt
+              </Button>
+            ),
+          }}
+          disabled={false}
+          fullWidth={false}
+        />
+        <Card
+          content={{
+            title: 'Decrypt Message',
+            description: 'Decrypt a message using the public key.',
+            button: (
+              <Button onClick={handleDecryptMessage} disabled={false}>
+                eth_encrypt
+              </Button>
             ),
           }}
           disabled={false}
