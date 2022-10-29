@@ -1,5 +1,7 @@
 import { useContext, useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
+
 // import { useProvider } from '@web3modal/react'
 
 import { SSX, SSXConfig } from '@spruceid/ssx';
@@ -109,13 +111,21 @@ const ErrorMessage = styled.div`
 
 const Index = () => {
   // const { provider, isReady } = useProvider();
+  const ssxHost = 'http://localhost:3001';
   const ssxConfig = {
     providers: {
       web3: { driver: window.ethereum },
+      server: { host: ssxHost },
     }
   };
   const newSSX = new SSX(ssxConfig);
   const [ssx, setSSX] = useState(newSSX);
+
+  const apiInstance = axios.create({
+    baseURL: ssxHost,
+    withCredentials: true,
+  });
+
   const [state, dispatch] = useContext(MetaMaskContext);
 
   const [encryptionPublicKey, setEncryptionPublicKey] = useState('');
@@ -123,11 +133,17 @@ const Index = () => {
   const [encryptedMessage, setEncryptedMessage] = useState('');
   const [decryptedMessage, setDecryptedMessage] = useState('');
 
+  const getStorage = async () => {
+    const response = await apiInstance.get('/storage');
+    console.log(response);
+  };
+
   const handleConnectClick = async () => {
     try {
       await connectSnap();
       const installedSnap = await getSnap();
       await ssx.signIn();
+      await getStorage();
 
       dispatch({
         type: MetamaskActions.SetInstalled,
