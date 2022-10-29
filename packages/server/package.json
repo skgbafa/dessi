@@ -1,0 +1,20 @@
+{
+  "name": "server",
+  "packageManager": "yarn@3.2.1",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "prestart": "yarn build",
+    "dev": "concurrently \"tsc --watch\" \"nodemon src/index.ts\""
+  },
+  "dependencies": {
+    "@spruceid/ssx-server": "^0.1.0",
+    "@types/express": "^4.17.14",
+    "concurrently": "^7.5.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20",
+    "typescript": "^4.8.4"
+  }
+}
