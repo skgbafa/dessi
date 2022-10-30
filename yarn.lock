@@ -10173,6 +10173,7 @@ __metadata:
     typescript: ^4.7.4
     url: ^0.11.0
     wagmi: ^0.7.8
+    web3.storage: ^4.4.0
   languageName: unknown
   linkType: soft
 

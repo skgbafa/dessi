@@ -36,7 +36,8 @@
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0",
     "styled-components": "5.3.3",
-    "wagmi": "^0.7.8"
+    "wagmi": "^0.7.8",
+    "web3.storage": "^4.4.0"
   },
   "devDependencies": {
     "@metamask/eslint-config": "^10.0.0",

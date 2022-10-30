@@ -7,11 +7,11 @@ exports.onCreateWebpackConfig = ({ actions }) => {
           buffer: require.resolve('buffer'),
 
       },
-      plugins: [
-        new webpack.ProvidePlugin({
-            Buffer: ['buffer', 'Buffer'],
-        }),
-    ],
+    //   plugins: [
+    //     new webpack.ProvidePlugin({
+    //         Buffer: ['buffer', 'Buffer'],
+    //     }),
+    // ],
     },
   })
 }

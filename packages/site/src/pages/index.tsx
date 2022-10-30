@@ -11,6 +11,7 @@ import { SSX, SSXConfig } from '@spruceid/ssx';
 
 import { MetamaskActions, MetaMaskContext } from '../hooks';
 import { encrypt } from 'eciesjs';
+import { Web3Storage } from 'web3.storage';
 import {
   connectSnap,
   getSnap,
@@ -116,6 +117,25 @@ const encryptMessage = (message: string, publicKey: string) => {
   return encryptedMessage.toString("hex");
 }
 
+function getAccessToken () {
+  // will delete post hackathon
+  return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDQ0NDk3MmE0Mzk1ZDhDNThkYzc2OTBiQjQyRUVmQTMzNTRDYmVlRTciLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NjcwODE5MTAwNjMsIm5hbWUiOiJkZXNzaS10b2tlbiJ9.ycSC8jx-0_sWX9JoslIGz3cCf1MNtPbMNsqfkOyOQhM";
+}
+
+function makeFileObjects (data: any) {
+  const blob = new Blob([JSON.stringify(data)], { type: 'application/json' })
+  const files = [
+    new File([blob], 'dessi.json')
+  ]
+  return files
+}
+
+async function storeFiles (client: any, files: any) {
+  const cid = await client.put(files)
+  console.log('stored files with cid:', cid)
+  return cid
+}
+
 const Index = () => {
   // const { provider, isReady } = useProvider();
   const ssxHost = 'http://localhost:3001';
@@ -133,14 +153,20 @@ const Index = () => {
     withCredentials: true,
   });
 
+  const web3storage = new Web3Storage({ token: getAccessToken() })
+
   const [state, dispatch] = useContext(MetaMaskContext);
 
   const [encryptionPublicKey, setEncryptionPublicKey] = useState('');
   const [message, setMessage] = useState('');
-  const [cipherText, setCipherText] = useState(localStorage.getItem('cipherText') || '');
-  const [encryptedMessage, setEncryptedMessage] = useState('');
+  const [cipherText, setCipherText] = useState('');
   const [decryptedMessage, setDecryptedMessage] = useState('');
 
+  const [uploadCID, setUploadCID] = useState('');
+  const [downloadCID, setDownloadCID] = useState('');
+
+
+//bafybeieyf3654km2ha6lwejwmz5sy7rdgkxiewrmazkvm5s3twphudf63i
   const getStorage = async () => {
     const response = await apiInstance.get('/storage');
     console.log(response);
@@ -200,6 +226,32 @@ const Index = () => {
       }
       const decrypted: any = await decrypt(cipherText, account);
       setDecryptedMessage(decrypted);
+    } catch (e) {
+      console.error(e);
+      dispatch({ type: MetamaskActions.SetError, payload: e });
+    }
+  };
+
+  const handleUploadCID = async () => {
+    try {
+      const files = makeFileObjects({ message: cipherText })
+      const cid = await storeFiles(web3storage, files)
+      setUploadCID(cid)
+    } catch (e) {
+      console.error(e);
+      dispatch({ type: MetamaskActions.SetError, payload: e });
+    }
+  };
+
+  const handleGetCID = async () => {
+    try {
+       const data = await axios.get(`https://${downloadCID}.ipfs.w3s.link/dessi.json/`);
+       console.log(data)
+       if (data.status === 200) {
+          setCipherText(data.data.message)
+       }
+
+        // request succeeded! do something with the response object here...
     } catch (e) {
       console.error(e);
       dispatch({ type: MetamaskActions.SetError, payload: e });
@@ -302,6 +354,38 @@ const Index = () => {
                 <p>Decrypted Message: {decryptedMessage}</p>
                 <Button onClick={handleDecryptMessage} disabled={false}>
                   Fetch and Decrypt
+                </Button>
+              </>
+            ),
+          }}
+          disabled={false}
+          fullWidth={false}
+        />
+        <Card
+          content={{
+            title: 'Upload Data to IPFS',
+            description: 'Upload encrypted data to IPFS.',
+            button: (
+              <>
+                <p>CID: {uploadCID}</p>
+                <Button onClick={handleUploadCID} disabled={false}>
+                  Upload Data
+                </Button>
+              </>
+            ),
+          }}
+          disabled={false}
+          fullWidth={false}
+        />
+        <Card
+          content={{
+            title: 'Get CID from IPFS',
+            description: 'Download data from IPFS.',
+            button: (
+              <>
+                <input type="text" value={downloadCID} onChange={(e) => {setDownloadCID(e.target.value)}}/>
+                <Button onClick={handleGetCID} disabled={false}>
+                  Download CID
                 </Button>
               </>
             ),
