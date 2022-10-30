@@ -1,7 +1,10 @@
 import { useContext, useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import { Buffer } from 'buffer';
 
+// @ts-ignore
+window.Buffer = Buffer;
 // import { useProvider } from '@web3modal/react'
 
 import { SSX, SSXConfig } from '@spruceid/ssx';
@@ -108,6 +111,11 @@ const ErrorMessage = styled.div`
   }
 `;
 
+const encryptMessage = (message: string, publicKey: string) => {
+  const encryptedMessage = encrypt(publicKey, Buffer.from(message));
+  return encryptedMessage.toString("hex");
+}
+
 const Index = () => {
   // const { provider, isReady } = useProvider();
   const ssxHost = 'http://localhost:3001';
@@ -173,8 +181,10 @@ const Index = () => {
     try {
       // todo: encrypt message
       await handleGetEncryptionPublicKey();
-      // const encryptedMessage = encrypt(message, encryptionPublicKey);
-      const encryptedMessage = message;
+      // const encryptedMessage = encrypt(encryptionPublicKey, Buffer.from(message)).toString("hex");
+      const encryptedMessage = encryptMessage(message, encryptionPublicKey);
+      // const encryptedMessage = message;
+      console.log(encryptedMessage)
       localStorage.setItem('cipherText', encryptedMessage);
       setCipherText(encryptedMessage);
     } catch (e) {
