@@ -166,7 +166,10 @@ const Index = () => {
 
   const handleGetEncryptionPublicKey = async () => {
     try {
-      const account = ''; // todo: get account from state
+      const account = ssx.address();
+      if (!account) {
+        throw new Error('No account found');
+      }
       const publicKey: any = await getEncryptionPublicKey(account);
       setEncryptionPublicKey(publicKey);
     } catch (e) {
@@ -185,7 +188,10 @@ const Index = () => {
 
   const handleDecryptMessage = async () => {
     try {
-      const account = ''; // todo: get account from state
+      const account = ssx.address();
+      if (!account) {
+        throw new Error('No account found');
+      }
       const decrypted: any = await decrypt(encryptedMessage, account);
       setDecryptedMessage(decrypted);
     } catch (e) {

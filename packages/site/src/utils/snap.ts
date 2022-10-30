@@ -105,7 +105,10 @@ export const decrypt = async (encryptedMessage: string, account: string) => {
       defaultSnapOrigin,
       {
         method: 'eth_decrypt',
-        params: [encryptedMessage, account],
+        params: [{
+          version: "secp256k1-sha512kdf-aes256cbc-hmacsha256",
+          ciphertext: encryptedMessage
+        }, account],
       },
     ],
   });

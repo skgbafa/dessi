@@ -36,9 +36,13 @@ export const onRpcRequest: OnRpcRequestHandler = ({ origin, request }) => {
         ],
       });
     case 'eth_getEncryptionPublicKey':
-      return eth_getEncryptionPublicKey('');
+      if (request?.params?.length !== 1) {
+        throw new Error('Invalid parameters');
+      }
+      return eth_getEncryptionPublicKey((request.params as any)[0]);
 
     case 'eth_decrypt':
+      console.log(JSON.stringify(request));
       return eth_decrypt('', '');
 
     default:
