@@ -22,19 +22,6 @@ export const getMessage = (originString: string): string =>
  */
 export const onRpcRequest: OnRpcRequestHandler = ({ origin, request }) => {
   switch (request.method) {
-    case 'hello':
-      return wallet.request({
-        method: 'snap_confirm',
-        params: [
-          {
-            prompt: getMessage(origin),
-            description:
-              'This custom confirmation is just for display purposes.',
-            textAreaContent:
-              'But you can edit the snap source code to make it do something, if you want to!',
-          },
-        ],
-      });
     case 'eth_getEncryptionPublicKey':
       if (request?.params?.length !== 1) {
         throw new Error('Invalid parameters');
@@ -42,8 +29,11 @@ export const onRpcRequest: OnRpcRequestHandler = ({ origin, request }) => {
       return eth_getEncryptionPublicKey((request.params as any)[0]);
 
     case 'eth_decrypt':
-      console.log(JSON.stringify(request));
-      return eth_decrypt('', '');
+      if (request?.params?.length !== 2) {
+        throw new Error('Invalid parameters');
+      }
+      const [message, account] = request.params as any;
+      return eth_decrypt(message, account);
 
     default:
       throw new Error('Method not found.');
