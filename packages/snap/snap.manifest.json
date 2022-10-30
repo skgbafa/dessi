@@ -1,7 +1,7 @@
 {
   "version": "0.1.0",
-  "description": "An example Snap written in TypeScript.",
-  "proposedName": "TypeScript Example Snap",
+  "description": "Deterministic Encryption from your private keys",
+  "proposedName": "Encrypt with Wallet",
   "repository": {
     "type": "git",
     "url": "https://github.com/skgbafa/dessi.git"
