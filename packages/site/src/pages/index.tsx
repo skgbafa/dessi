@@ -12,7 +12,6 @@ import {
   getSnap,
   getEncryptionPublicKey,
   decrypt,
-  sendHello,
   shouldDisplayReconnectButton,
 } from '../utils';
 
@@ -20,7 +19,6 @@ import {
   ConnectButton,
   InstallFlaskButton,
   ReconnectButton,
-  SendHelloButton,
   Card,
   Button,
 } from '../components';
@@ -130,6 +128,7 @@ const Index = () => {
 
   const [encryptionPublicKey, setEncryptionPublicKey] = useState('');
   const [message, setMessage] = useState('');
+  const [cipherText, setCipherText] = useState('');
   const [encryptedMessage, setEncryptedMessage] = useState('');
   const [decryptedMessage, setDecryptedMessage] = useState('');
 
@@ -149,15 +148,6 @@ const Index = () => {
         type: MetamaskActions.SetInstalled,
         payload: installedSnap,
       });
-    } catch (e) {
-      console.error(e);
-      dispatch({ type: MetamaskActions.SetError, payload: e });
-    }
-  };
-
-  const handleSendHelloClick = async () => {
-    try {
-      await sendHello();
     } catch (e) {
       console.error(e);
       dispatch({ type: MetamaskActions.SetError, payload: e });
@@ -259,21 +249,6 @@ const Index = () => {
         )}
         <Card
           content={{
-            title: 'Send Hello message',
-            description:
-              'Display a custom message within a confirmation screen in MetaMask.',
-            button: (
-              <SendHelloButton
-                onClick={handleSendHelloClick}
-                disabled={false}
-              />
-            ),
-          }}
-          disabled={false}
-          fullWidth={false}
-        />
-        <Card
-          content={{
             title: 'Get Encryption Public Key',
             description: 'Get the public key used for encryption.',
             button: (
@@ -290,9 +265,12 @@ const Index = () => {
             title: 'Encrypt Message',
             description: 'Encrypt a message using the public key.',
             button: (
-              <Button onClick={handleEncryptMessage} disabled={false}>
-                eth_encrypt
-              </Button>
+              <>
+                <input type="text" value={message} onChange={(e) => {setMessage(e.target.value)}}/>
+                <Button onClick={handleEncryptMessage} disabled={false}>
+                  Encrypt and Store
+                </Button>
+              </>
             ),
           }}
           disabled={false}
@@ -303,35 +281,18 @@ const Index = () => {
             title: 'Decrypt Message',
             description: 'Decrypt a message using the public key.',
             button: (
-              <Button onClick={handleDecryptMessage} disabled={false}>
-                eth_encrypt
-              </Button>
+              <>
+                <p>cipherText: {cipherText}</p>
+                <p>Decrypted Message: {decryptedMessage}</p>
+                <Button onClick={handleDecryptMessage} disabled={false}>
+                  Fetch and Decrypt
+                </Button>
+              </>
             ),
           }}
           disabled={false}
           fullWidth={false}
         />
-        <Card
-          content={{
-            title: 'SSX Sign-in',
-            description: 'Sign-in using SSX.',
-            button: (
-              <Button onClick={() => {ssx.signIn()}} disabled={false}>
-                SSX
-              </Button>
-            ),
-          }}
-          disabled={false}
-          fullWidth={false}
-        />
-        <Notice>
-          <p>
-            Please note that the <b>snap.manifest.json</b> and{' '}
-            <b>package.json</b> must be located in the server root directory and
-            the bundle must be hosted at the location specified by the location
-            field.
-          </p>
-        </Notice>
       </CardContainer>
     </Container>
   );
