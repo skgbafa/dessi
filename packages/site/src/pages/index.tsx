@@ -142,7 +142,7 @@ const Index = () => {
   const ssxConfig = {
     providers: {
       web3: { driver: window.ethereum },
-      server: { host: ssxHost },
+      // server: { host: ssxHost },
     }
   };
   const newSSX = new SSX(ssxConfig);
@@ -260,12 +260,8 @@ const Index = () => {
 
   return (
     <Container>
-      <Heading>
-        Welcome to <Span>template-snap</Span>
-      </Heading>
-      <Subtitle>
-        Get started by editing <code>src/index.ts</code>
-      </Subtitle>
+      <Heading>Deterministic Encryption and Storage via Snap and IPFS</Heading>
+
       <CardContainer>
         {state.error && (
           <ErrorMessage>
@@ -344,6 +340,22 @@ const Index = () => {
           disabled={false}
           fullWidth={false}
         />
+         <Card
+          content={{
+            title: 'Upload Data to IPFS',
+            description: 'Upload encrypted data to IPFS.',
+            button: (
+              <>
+                <p>CID: {uploadCID}</p>
+                <Button onClick={handleUploadCID} disabled={false}>
+                  Upload Data
+                </Button>
+              </>
+            ),
+          }}
+          disabled={false}
+          fullWidth={false}
+        />
         <Card
           content={{
             title: 'Decrypt Message',
@@ -361,22 +373,7 @@ const Index = () => {
           disabled={false}
           fullWidth={false}
         />
-        <Card
-          content={{
-            title: 'Upload Data to IPFS',
-            description: 'Upload encrypted data to IPFS.',
-            button: (
-              <>
-                <p>CID: {uploadCID}</p>
-                <Button onClick={handleUploadCID} disabled={false}>
-                  Upload Data
-                </Button>
-              </>
-            ),
-          }}
-          disabled={false}
-          fullWidth={false}
-        />
+
         <Card
           content={{
             title: 'Get CID from IPFS',
