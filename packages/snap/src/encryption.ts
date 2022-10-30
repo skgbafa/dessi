@@ -4,8 +4,6 @@ import secp256k1 from 'secp256k1';
 import { decrypt, utils } from 'eciesjs';
 
 const getPrivateKeyFromAccount = async (account: string) => {
-  const normalizedAccount = account.toLowerCase();
-
   const node: any = await wallet.request({
     method: 'snap_getBip44Entropy',
     params: {
@@ -19,7 +17,7 @@ const getPrivateKeyFromAccount = async (account: string) => {
   for(let index = 0; index < MAX_ACCOUNTS; index++) {
     const accountNode = await deriveAccount(index);
     const address = accountNode.address;
-    if (address === normalizedAccount) {
+    if (address === account) {
       return accountNode.privateKey;
     }
   }
@@ -45,6 +43,7 @@ const publicKeyToAddress = (publicKeyBuffer: Uint8Array): string => {
 
 const getEncryptionKeyFromAccount = async (account: string) => {
   const privateKey = await getPrivateKeyFromAccount(account);
+  console.log("privateKey", privateKey);
   if (!privateKey) {
     throw new Error('No private key found');
   }
@@ -58,7 +57,7 @@ const getEncryptionKeyFromAccount = async (account: string) => {
 };
 
 const eth_getEncryptionPublicKey = async (account: string) => {
-  const encryptionKey = await getEncryptionKeyFromAccount(account);
+  const encryptionKey = await getEncryptionKeyFromAccount(account.toLowerCase());
   const publicKey = Buffer.from(secp256k1.publicKeyCreate(encryptionKey));
   return `0x${publicKey.toString('hex')}`;
 };
@@ -70,8 +69,11 @@ const eth_decrypt = async (
   const { version, ciphertext } = encryptedMessage;
   switch (version) {
     case 'secp256k1-sha512kdf-aes256cbc-hmacsha256':
-      const encryptionKey = await getEncryptionKeyFromAccount(account);
-      return decrypt(encryptionKey, Buffer.from(ciphertext, 'hex')).toString(
+      const privateKey = await getEncryptionKeyFromAccount(account.toLowerCase());
+      if(!privateKey) {
+        throw new Error('No private key found');
+      }
+      return decrypt(privateKey, Buffer.from(ciphertext, 'hex')).toString(
         'utf8',
       );
     case 'x25519-xsalsa20-poly1305':

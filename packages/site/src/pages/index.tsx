@@ -7,6 +7,7 @@ import axios from 'axios';
 import { SSX, SSXConfig } from '@spruceid/ssx';
 
 import { MetamaskActions, MetaMaskContext } from '../hooks';
+import { encrypt } from 'eciesjs';
 import {
   connectSnap,
   getSnap,
@@ -128,7 +129,7 @@ const Index = () => {
 
   const [encryptionPublicKey, setEncryptionPublicKey] = useState('');
   const [message, setMessage] = useState('');
-  const [cipherText, setCipherText] = useState('');
+  const [cipherText, setCipherText] = useState(localStorage.getItem('cipherText') || '');
   const [encryptedMessage, setEncryptedMessage] = useState('');
   const [decryptedMessage, setDecryptedMessage] = useState('');
 
@@ -139,9 +140,9 @@ const Index = () => {
 
   const handleConnectClick = async () => {
     try {
+      await ssx.signIn();
       await connectSnap();
       const installedSnap = await getSnap();
-      await ssx.signIn();
       await getStorage();
 
       dispatch({
@@ -168,9 +169,14 @@ const Index = () => {
     }
   };
 
-  const handleEncryptMessage = async () => {
+  const handleEncryptAndStoreMessage = async () => {
     try {
       // todo: encrypt message
+      await handleGetEncryptionPublicKey();
+      // const encryptedMessage = encrypt(message, encryptionPublicKey);
+      const encryptedMessage = message;
+      localStorage.setItem('cipherText', encryptedMessage);
+      setCipherText(encryptedMessage);
     } catch (e) {
       console.error(e);
     }
@@ -182,7 +188,7 @@ const Index = () => {
       if (!account) {
         throw new Error('No account found');
       }
-      const decrypted: any = await decrypt(encryptedMessage, account);
+      const decrypted: any = await decrypt(cipherText, account);
       setDecryptedMessage(decrypted);
     } catch (e) {
       console.error(e);
@@ -267,7 +273,7 @@ const Index = () => {
             button: (
               <>
                 <input type="text" value={message} onChange={(e) => {setMessage(e.target.value)}}/>
-                <Button onClick={handleEncryptMessage} disabled={false}>
+                <Button onClick={handleEncryptAndStoreMessage} disabled={false}>
                   Encrypt and Store
                 </Button>
               </>
