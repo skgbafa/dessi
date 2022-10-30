@@ -35,3 +35,8 @@ sequenceDiagram
     Dapp->>User: Show Decrypted Data
 
 ```
+
+# To run
+```
+yarn && yarn start
+```
