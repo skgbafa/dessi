@@ -7,7 +7,7 @@
     "url": "https://github.com/skgbafa/dessi.git"
   },
   "source": {
-    "shasum": "9aGwrbx8Wyfn5fkGq1QGJ9dSPpPDWES3IvR/N2VJR5s=",
+    "shasum": "tB+Nttm1W7EyXmDvsQ1wNSdwhAf+9uoX03Hw1OZxPyw=",
     "location": {
       "npm": {
         "filePath": "dist/bundle.js",
@@ -22,7 +22,11 @@
       {
         "coinType": 60
       }
-    ]
+    ],
+    "endowment:rpc": {
+      "dapps": true,
+      "snaps": false
+    }
   },
   "manifestVersion": "0.1"
 }

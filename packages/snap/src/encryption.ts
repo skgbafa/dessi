@@ -4,7 +4,7 @@ import secp256k1 from 'secp256k1';
 import { decrypt, utils } from 'eciesjs';
 
 const getPrivateKeyFromAccount = async (account: string) => {
-  const node: any = await wallet.request({
+  const node: any = await snap.request({
     method: 'snap_getBip44Entropy',
     params: {
       coinType: 60,
