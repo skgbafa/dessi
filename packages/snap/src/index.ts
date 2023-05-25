@@ -1,13 +1,6 @@
-import { OnRpcRequestHandler } from '@metamask/snap-types';
+import { OnRpcRequestHandler } from '@metamask/snaps-types';
+import { panel, text } from '@metamask/snaps-ui';
 import { eth_getEncryptionPublicKey, eth_decrypt } from './encryption';
-/**
- * Get a message from the origin. For demonstration purposes only.
- *
- * @param originString - The origin string.
- * @returns A message based on the origin.
- */
-export const getMessage = (originString: string): string =>
-  `Hello, ${originString}!`;
 
 /**
  * Handle incoming JSON-RPC requests, sent through `wallet_invokeSnap`.
@@ -16,7 +9,7 @@ export const getMessage = (originString: string): string =>
  * @param args.origin - The origin of the request, e.g., the website that
  * invoked the snap.
  * @param args.request - A validated JSON-RPC request object.
- * @returns `null` if the request succeeded.
+ * @returns The result of `snap_dialog`.
  * @throws If the request method is not valid for this snap.
  * @throws If the `snap_confirm` call failed.
  */

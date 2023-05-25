@@ -23,16 +23,10 @@ export const connectSnap = async (
   params: Record<'version' | string, unknown> = {},
 ) => {
   await window.ethereum.request({
-    method: 'wallet_enable',
-    params: [
-      {
-        wallet_snap: {
-          [snapId]: {
-            ...params,
-          },
-        },
-      },
-    ],
+    method: 'wallet_requestSnaps',
+    params: {
+      [snapId]: params,
+    },
   });
 };
 
@@ -63,12 +57,7 @@ export const getSnap = async (version?: string): Promise<Snap | undefined> => {
 export const sendHello = async () => {
   await window.ethereum.request({
     method: 'wallet_invokeSnap',
-    params: [
-      defaultSnapOrigin,
-      {
-        method: 'hello',
-      },
-    ],
+    params: { snapId: defaultSnapOrigin, request: { method: 'hello' } },
   });
 };
 
@@ -81,13 +70,13 @@ export const sendHello = async () => {
 export const getEncryptionPublicKey = async (account: string) => {
   return await window.ethereum.request({
     method: 'wallet_invokeSnap',
-    params: [
-      defaultSnapOrigin,
-      {
+    params: {
+      snapId: defaultSnapOrigin,
+      request: {
         method: 'eth_getEncryptionPublicKey',
         params: [account],
       },
-    ],
+    },
   });
 };
 
@@ -101,16 +90,16 @@ export const getEncryptionPublicKey = async (account: string) => {
 export const decrypt = async (encryptedMessage: string, account: string) => {
   return await window.ethereum.request({
     method: 'wallet_invokeSnap',
-    params: [
-      defaultSnapOrigin,
-      {
+    params: {
+      snapId: defaultSnapOrigin,
+      request: {
         method: 'eth_decrypt',
         params: [{
           version: "secp256k1-sha512kdf-aes256cbc-hmacsha256",
           ciphertext: encryptedMessage
         }, account],
       },
-    ],
+    },
   });
 };
 
